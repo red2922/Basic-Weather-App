@@ -15,13 +15,20 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
+  <body class="bg-primary-subtle">
+    <nav class="navbar bg-primary">
+      <div class="container-fluid d-flex justify-content-center">
+        <form class="d-flex" role="search" id="userSearch">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Enter City, State"
+            aria-label="Search"
+          />
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
 
     <script src="" async defer></script>
   </body>
