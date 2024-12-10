@@ -10,9 +10,10 @@ const weekDays = [
 ];
 var testing = document.getElementById("testing");
 var weatherData = {};
+var latitude = 40.69;
+var longitude = -99.08;
 
-const url =
-  "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver";
+var url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver`;
 
 async function getWeatherData() {
   try {
@@ -34,10 +35,21 @@ function setWeekDayCards() {
   }
 }
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+      updateUI();
+    });
+  } else {
+    alert("I was not able to get the current location");
+  }
+}
+
 getWeatherData();
 
-function tryingStuff() {
+function updateUI() {
   setWeekDayCards();
-  console.log(weatherData);
   testing.innerHTML = `<div>${weatherData.daily.temperature_2m_max[0]}</div>`;
 }

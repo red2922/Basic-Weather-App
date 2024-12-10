@@ -13,3 +13,7 @@
   .weatherCards {
     width: 10rem;
   }
+
+  #locationButton {
+    margin-left: 1vw;
+  }
