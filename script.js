@@ -45,7 +45,7 @@ function setWeatherUI() {
       weatherData.daily.temperature_2m_max[i + 1]
     } °F</div><div>Low: ${
       weatherData.daily.temperature_2m_min[i + 1]
-    }</div> °F`;
+    } °F</div> `;
   }
 }
 
