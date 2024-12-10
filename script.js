@@ -21,10 +21,14 @@ async function getWeatherData() {
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
-    weatherData = await response.json();
+    return response.json();
   } catch (error) {
-    console.error(error.message);
+    console.error("Error fetching weather data:", error.message);
   }
+}
+
+async function setWeatherData() {
+  weatherData = await getWeatherData();
 }
 
 function setWeekDayCards() {
@@ -39,7 +43,9 @@ function setWeatherUI() {
   for (let i = 0; i < 5; i++) {
     document.getElementById(`card-${i + 1}-text`).innerHTML = `<div>High: ${
       weatherData.daily.temperature_2m_max[i + 1]
-    }</div><div>Low: ${weatherData.daily.temperature_2m_min[i + 1]}</div>`;
+    } °F</div><div>Low: ${
+      weatherData.daily.temperature_2m_min[i + 1]
+    }</div> °F`;
   }
 }
 
@@ -48,22 +54,18 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
-      updateUI();
+      //updateUI();
     });
   } else {
     alert("Not able to get the current location");
   }
 }
 
-function updateUI() {
-  console.log(weatherData);
-  getWeatherData();
+async function updateUI() {
+  await setWeatherData();
   setWeekDayCards();
   setWeatherUI();
 }
 
 //Main Running Stuff
-window.onload = () => {
-  getWeatherData();
-};
 updateUI();
