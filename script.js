@@ -8,12 +8,12 @@ const weekDays = [
   "Friday",
   "Saturday",
 ];
-var testing = document.getElementById("testing");
-var weatherData = {};
-var latitude = 40.69;
-var longitude = -99.08;
+const testing = document.getElementById("testing");
+let weatherData = {};
+let latitude = 40.69;
+let longitude = -99.08;
 
-var url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver`;
+let url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver`;
 
 async function getWeatherData() {
   try {
@@ -41,11 +41,11 @@ function setWeekDayCards() {
 
 function setWeatherUI() {
   for (let i = 0; i < 5; i++) {
-    document.getElementById(`card-${i + 1}-text`).innerHTML = `<div>High: ${
-      weatherData.daily.temperature_2m_max[i + 1]
-    } °F</div><div>Low: ${
-      weatherData.daily.temperature_2m_min[i + 1]
-    } °F</div> `;
+    console.log(weatherData.daily.weather_code[i+1]);
+    document.getElementById(`card-${i + 1}-text`).innerHTML = `
+<img class="weatherImage" src=${setWeatherPhoto(weatherData.daily.weather_code[i+1])}/>
+<div>High: ${weatherData.daily.temperature_2m_max[i + 1]} °F</div>
+<div>Low: ${weatherData.daily.temperature_2m_min[i + 1]} °F</div> `;
   }
 }
 
@@ -58,6 +58,23 @@ function getLocation() {
     });
   } else {
     alert("Not able to get the current location");
+  }
+}
+
+function setWeatherPhoto(code){
+  switch(code){
+    case code <= 2:
+      return "Assets/sun.png"
+    case 3:
+      return "Assets/cloudy-day.png"
+    case code <= 21:
+      return "Assets/rain.png"
+    case code <= 50:
+      return "Assets/snow.png"
+    case code <= 60:
+      return "Assets/windy-rain.png"
+    default:
+      return "Assets/sun.png"
   }
 }
 

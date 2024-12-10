@@ -21,3 +21,8 @@
   #locationButton {
     margin-left: 1vw;
   }
+
+  .weatherImage{
+    width: 5vw;
+    height: 5vw;
+}
