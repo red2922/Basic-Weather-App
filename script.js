@@ -35,6 +35,14 @@ function setWeekDayCards() {
   }
 }
 
+function setWeatherUI() {
+  for (let i = 0; i < 5; i++) {
+    document.getElementById(`card-${i + 1}-text`).innerHTML = `<div>High: ${
+      weatherData.daily.temperature_2m_max[i + 1]
+    }</div><div>Low: ${weatherData.daily.temperature_2m_min[i + 1]}</div>`;
+  }
+}
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -43,13 +51,19 @@ function getLocation() {
       updateUI();
     });
   } else {
-    alert("I was not able to get the current location");
+    alert("Not able to get the current location");
   }
 }
 
-getWeatherData();
-
 function updateUI() {
+  console.log(weatherData);
+  getWeatherData();
   setWeekDayCards();
-  testing.innerHTML = `<div>${weatherData.daily.temperature_2m_max[0]}</div>`;
+  setWeatherUI();
 }
+
+//Main Running Stuff
+window.onload = () => {
+  getWeatherData();
+};
+updateUI();
