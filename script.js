@@ -41,9 +41,11 @@ function setWeekDayCards() {
 
 function setWeatherUI() {
   for (let i = 0; i < 5; i++) {
-    console.log(weatherData.daily.weather_code[i+1]);
+    console.log(weatherData.daily.weather_code[i + 1]);
     document.getElementById(`card-${i + 1}-text`).innerHTML = `
-<img class="weatherImage" src=${setWeatherPhoto(weatherData.daily.weather_code[i+1])}/>
+<img class="weatherImage" src="${setWeatherPhoto(
+      weatherData.daily.weather_code[i + 1]
+    )}"/>
 <div>High: ${weatherData.daily.temperature_2m_max[i + 1]} °F</div>
 <div>Low: ${weatherData.daily.temperature_2m_min[i + 1]} °F</div> `;
   }
@@ -61,20 +63,19 @@ function getLocation() {
   }
 }
 
-function setWeatherPhoto(code){
-  switch(code){
-    case code <= 2:
-      return "Assets/sun.png"
-    case 3:
-      return "Assets/cloudy-day.png"
-    case code <= 21:
-      return "Assets/rain.png"
-    case code <= 50:
-      return "Assets/snow.png"
-    case code <= 60:
-      return "Assets/windy-rain.png"
-    default:
-      return "Assets/sun.png"
+function setWeatherPhoto(code) {
+  if (code <= 2) {
+    return "Assets/sun.png";
+  } else if (code === 3) {
+    return "Assets/cloudy-day.png";
+  } else if (code <= 21) {
+    return "Assets/rain.png";
+  } else if (code <= 50) {
+    return "Assets/snowfall.png";
+  } else if (code <= 60) {
+    return "Assets/windy-rain.png";
+  } else {
+    return "Assets/sun.png";
   }
 }
 
