@@ -8,7 +8,6 @@ const weekDays = [
   "Friday",
   "Saturday",
 ];
-const testing = document.getElementById("testing");
 let weatherData = {};
 let latitude = 40.69;
 let longitude = -99.08;
