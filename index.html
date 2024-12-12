@@ -18,21 +18,23 @@
   <body class="bg-primary-subtle">
     <nav class="navbar bg-primary align-items-start sticky-top">
       <div class="container d-flex justify-content-center">
-        <form class="d-flex" role="search" id="userSearch">
+        <div class="d-flex">
           <input
+            id="longitude"
             class="form-control me-2"
-            type="search"
+            type="text"
             placeholder="Enter Longitude"
-            aria-label="Search"
+            aria-label="Longitude"
           />
           <input
+            id="latitude"
             class="form-control me-2"
-            type="search"
+            type="text"
             placeholder="Enter Latitude"
-            aria-label="Search"
+            aria-label="Latitude"
           />
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
+          <button class="btn btn-success" onClick="getInput()">Search</button>
+        </div>
         <button
           id="locationButton"
           class="btn btn-info"

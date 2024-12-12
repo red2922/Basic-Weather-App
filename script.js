@@ -1,4 +1,7 @@
 const date = new Date();
+const longitudeInput = document.getElementById("longitude");
+const latitudeInput = document.getElementById("latitude");
+
 const weekDays = [
   "Sunday",
   "Monday",
@@ -8,13 +11,17 @@ const weekDays = [
   "Friday",
   "Saturday",
 ];
-let weatherData = {};
-let latitude = 40.69;
-let longitude = -99.08;
+let weatherData = {
+  daily: {
+    weather_code: [],
+    temperature_2m_max: [],
+    temperature_2m_min: [],
+  },
+};
 
-let url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver`;
+async function getWeatherData(lat = 40.69, long = -99.08) {
+  let url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FDenver`;
 
-async function getWeatherData() {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -26,8 +33,8 @@ async function getWeatherData() {
   }
 }
 
-async function setWeatherData() {
-  weatherData = await getWeatherData();
+async function setWeatherData(lat = 40.69, long = -99.08) {
+  weatherData = await getWeatherData(lat, long);
 }
 
 function setWeekDayCards() {
@@ -39,23 +46,30 @@ function setWeekDayCards() {
 }
 
 function setWeatherUI() {
+  if (!weatherData || !weatherData.daily) {
+    console.error("Weather data is not available");
+    return;
+  }
+
   for (let i = 0; i < 5; i++) {
-    console.log(weatherData.daily.weather_code[i + 1]);
     document.getElementById(`card-${i + 1}-text`).innerHTML = `
-<img class="weatherImage" src="${setWeatherPhoto(
-      weatherData.daily.weather_code[i + 1]
-    )}"/>
-<div>High: ${weatherData.daily.temperature_2m_max[i + 1]} °F</div>
-<div>Low: ${weatherData.daily.temperature_2m_min[i + 1]} °F</div> `;
+      <img class="weatherImage" src="${
+        setWeatherPhoto(weatherData.daily.weather_code[i + 1]) ||
+        "Assets/default.png"
+      }"/>
+      <div>High: ${
+        weatherData.daily.temperature_2m_max[i + 1] || "N/A"
+      } °F</div>
+      <div>Low: ${
+        weatherData.daily.temperature_2m_min[i + 1] || "N/A"
+      } °F</div>`;
   }
 }
 
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-      //updateUI();
+      updateUI(position.coords.latitude, position.coords.longitude);
     });
   } else {
     alert("Not able to get the current location");
@@ -78,10 +92,25 @@ function setWeatherPhoto(code) {
   }
 }
 
-async function updateUI() {
-  await setWeatherData();
+async function updateUI(lat = 40.69, long = -99.08) {
+  console.log(lat);
+  console.log(long);
+  await setWeatherData(lat, long);
   setWeekDayCards();
   setWeatherUI();
+}
+
+async function getInput() {
+  var long = longitudeInput.value;
+  var lat = latitudeInput.value;
+
+  if (long === "" || lat === "") {
+    alert("Your entry is missing data");
+  } else {
+    await updateUI(lat, long);
+  }
+
+  console.log(weatherData);
 }
 
 //Main Running Stuff
