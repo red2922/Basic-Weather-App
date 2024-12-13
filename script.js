@@ -93,8 +93,6 @@ function setWeatherPhoto(code) {
 }
 
 async function updateUI(lat = 40.69, long = -99.08) {
-  console.log(lat);
-  console.log(long);
   await setWeatherData(lat, long);
   setWeekDayCards();
   setWeatherUI();
